@@ -1,0 +1,163 @@
+--- a/powerline.spec	2017-10-18 00:35:57.000000000 +0800
++++ b/powerline.spec	2017-10-18 00:35:19.000000000 +0800
+@@ -8,29 +8,24 @@
+ License:        MIT
+ Url:            https://github.com/powerline/powerline
+ 
+-BuildRequires:  python3-setuptools
+-BuildRequires:  python3-sphinx
+-BuildRequires:  python3-devel
++BuildRequires:  python-setuptools
++BuildRequires:  python-sphinx
++BuildRequires:  python-devel
+ BuildRequires:  fdupes
+ BuildRequires:  fontconfig
+ BuildRequires:  systemd
+ BuildRequires:  tmux
+ BuildRequires:  vim-minimal
+ 
+-Requires:       python3
++Requires:       python
+ Requires:       powerline-fonts
+ Requires(post): systemd
+ Requires(preun): systemd
+ Requires(postun): systemd
+ 
+-Recommends:     python3-pygit2
+-
+ Source0:        https://github.com/powerline/powerline/archive/%{version}/powerline-%{version}.tar.gz
+ Source1:        vim-powerline.metainfo.xml
+ 
+-Patch0:         powerline-py2v3-fix.patch
+-Patch1:         powerline-2.6-gcc7_fixes.patch
+-
+ %description
+ Powerline is a status-line plugin for vim, and provides status-lines and prompts
+ for several other applications, including zsh, bash, tmux, IPython, Awesome and
+@@ -79,7 +74,7 @@
+ to your ~/.tmux.conf file.
+ 
+ %prep
+-%autosetup -p1
++%autosetup
+ 
+ %build
+ # nothing to build
+@@ -88,20 +83,20 @@
+ sed -i -e "/DEFAULT_SYSTEM_CONFIG_DIR/ s@None@'%{_sysconfdir}/xdg'@" powerline/config.py
+ sed -i -e "/TMUX_CONFIG_DIRECTORY/ s@BINDINGS_DIRECTORY@'/usr/share'@" powerline/config.py
+ CFLAGS="%{optflags}" \
+-%{__python3} setup.py install --prefix=%{_prefix} --root=%{buildroot} --optimize=1
++%{__python} setup.py install --prefix=%{_prefix} --root=%{buildroot} --optimize=1
+ 
+ # Check that the powerline client is an ELF executable
+ ldd %{buildroot}%{_bindir}/powerline
+ 
+ # build docs
+ pushd docs
+-%__make html SPHINXBUILD=/usr/bin/sphinx-build-3
++%__make html SPHINXBUILD=/usr/bin/sphinx-build
+ %__rm _build/html/.buildinfo
+ # A structure gets initialized while building the docs with os.environ.
+ # This works around an rpmlint error with the build dir being in a file.
+ sed -i -e 's/abuild/user/g' _build/html/develop/extensions.html
+ 
+-%__make man SPHINXBUILD=/usr/bin/sphinx-build-3
++%__make man SPHINXBUILD=/usr/bin/sphinx-build
+ popd
+ 
+ # config
+@@ -126,54 +121,54 @@
+ 
+ # awesome
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/awesome/
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/awesome/powerline.lua %{buildroot}%{_datadir}/%{name}/awesome/
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/awesome/powerline-awesome.py %{buildroot}%{_datadir}/%{name}/awesome/
++mv %{buildroot}%{python_sitelib}/powerline/bindings/awesome/powerline.lua %{buildroot}%{_datadir}/%{name}/awesome/
++mv %{buildroot}%{python_sitelib}/powerline/bindings/awesome/powerline-awesome.py %{buildroot}%{_datadir}/%{name}/awesome/
+ 
+ # bash bindings
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/bash
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/bash/powerline.sh %{buildroot}%{_datadir}/%{name}/bash/
++mv %{buildroot}%{python_sitelib}/powerline/bindings/bash/powerline.sh %{buildroot}%{_datadir}/%{name}/bash/
+ 
+ # fish
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/fish
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/fish/powerline-setup.fish %{buildroot}%{_datadir}/%{name}/fish
++mv %{buildroot}%{python_sitelib}/powerline/bindings/fish/powerline-setup.fish %{buildroot}%{_datadir}/%{name}/fish
+ 
+ # i3
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/i3
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/i3/powerline-i3.py %{buildroot}%{_datadir}/%{name}/i3
++mv %{buildroot}%{python_sitelib}/powerline/bindings/i3/powerline-i3.py %{buildroot}%{_datadir}/%{name}/i3
+ 
+ # ipython
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/ipython
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/ipython/post_0_11.py %{buildroot}%{_datadir}/%{name}/ipython
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/ipython/pre_0_11.py %{buildroot}%{_datadir}/%{name}/ipython
++mv %{buildroot}%{python_sitelib}/powerline/bindings/ipython/post_0_11.py %{buildroot}%{_datadir}/%{name}/ipython
++mv %{buildroot}%{python_sitelib}/powerline/bindings/ipython/pre_0_11.py %{buildroot}%{_datadir}/%{name}/ipython
+ 
+ # qtile
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/qtile
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/qtile/widget.py %{buildroot}%{_datadir}/%{name}/qtile
++mv %{buildroot}%{python_sitelib}/powerline/bindings/qtile/widget.py %{buildroot}%{_datadir}/%{name}/qtile
+ 
+ # shell bindings
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/shell
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/shell/powerline.sh %{buildroot}%{_datadir}/%{name}/shell/
++mv %{buildroot}%{python_sitelib}/powerline/bindings/shell/powerline.sh %{buildroot}%{_datadir}/%{name}/shell/
+ 
+ # tcsh
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/tcsh
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/tcsh/powerline.tcsh %{buildroot}%{_datadir}/%{name}/tcsh
++mv %{buildroot}%{python_sitelib}/powerline/bindings/tcsh/powerline.tcsh %{buildroot}%{_datadir}/%{name}/tcsh
+ 
+ # tmux plugin
+ install -d -m0755 %{buildroot}%{_datadir}/tmux
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/tmux/powerline*.conf %{buildroot}%{_datadir}/tmux/
++mv %{buildroot}%{python_sitelib}/powerline/bindings/tmux/powerline*.conf %{buildroot}%{_datadir}/tmux/
+ 
+ # vim plugin
+ install -d -m0755 %{buildroot}%{_datadir}/vim/vimfiles/plugin/
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/vim/plugin/powerline.vim %{buildroot}%{_datadir}/vim/vimfiles/plugin/powerline.vim
+-rm -rf %{buildroot}%{python3_sitelib}/powerline/bindings/vim/plugin
++mv %{buildroot}%{python_sitelib}/powerline/bindings/vim/plugin/powerline.vim %{buildroot}%{_datadir}/vim/vimfiles/plugin/powerline.vim
++rm -rf %{buildroot}%{python_sitelib}/powerline/bindings/vim/plugin
+ install -d -m0755 %{buildroot}%{_datadir}/vim/vimfiles/autoload/powerline
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/vim/autoload/powerline/debug.vim %{buildroot}%{_datadir}/vim/vimfiles/autoload/powerline/debug.vim
+-rm -rf %{buildroot}%{python3_sitelib}/powerline/bindings/vim/autoload
++mv %{buildroot}%{python_sitelib}/powerline/bindings/vim/autoload/powerline/debug.vim %{buildroot}%{_datadir}/vim/vimfiles/autoload/powerline/debug.vim
++rm -rf %{buildroot}%{python_sitelib}/powerline/bindings/vim/autoload
+ 
+ # zsh
+ install -d -m0755 %{buildroot}%{_datadir}/%{name}/zsh
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/zsh/__init__.py %{buildroot}%{_datadir}/%{name}/zsh
+-mv %{buildroot}%{python3_sitelib}/powerline/bindings/zsh/powerline.zsh %{buildroot}%{_datadir}/%{name}/zsh
++mv %{buildroot}%{python_sitelib}/powerline/bindings/zsh/__init__.py %{buildroot}%{_datadir}/%{name}/zsh
++mv %{buildroot}%{python_sitelib}/powerline/bindings/zsh/powerline.zsh %{buildroot}%{_datadir}/%{name}/zsh
+ 
+ # vim-powerline appdata
+ mkdir -p %{buildroot}%{_datadir}/appdata
+@@ -184,10 +179,10 @@
+ install -m 0644 powerline/dist/systemd/powerline-daemon.service %{buildroot}%{_unitdir}/powerline.service
+ 
+ # cleanup
+-%__rm -rf %{buildroot}%{python3_sitelib}/%{name}/config_files
++%__rm -rf %{buildroot}%{python_sitelib}/%{name}/config_files
+ 
+ %if 0%{?fedora}
+-%fdupes %{buildroot}%{python3_sitelib}
++%fdupes %{buildroot}%{python_sitelib}
+ %endif
+ 
+ %post
+@@ -306,7 +301,7 @@
+ %dir %{_datadir}/%{name}/zsh
+ %{_datadir}/%{name}/zsh/__init__.py*
+ %{_datadir}/%{name}/zsh/powerline.zsh
+-%{python3_sitelib}/*
++%{python_sitelib}/*
+ %{_unitdir}/powerline.service
+ 
+ %files docs
