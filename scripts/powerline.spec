@@ -9,7 +9,6 @@ License:        MIT
 Url:            https://github.com/powerline/powerline
 
 BuildRequires:  python-setuptools
-BuildRequires:  python-sphinx
 BuildRequires:  python-devel
 BuildRequires:  fdupes
 BuildRequires:  fontconfig

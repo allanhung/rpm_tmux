@@ -14,11 +14,11 @@ rpmbuild -bb $RPMBUILDROOT/SPECS/tmux.spec
 yum install -y $RPMBUILDROOT/RPMS/tmux-*.rpm
 
 # powerline
-/bin/cp -f /usr/local/src/build/tmux.spec $RPMBUILDROOT/SPECS/
-spectool -g -R $RPMBUILDROOT/SPECS/powerline.spec
-yum-builddep -y $RPMBUILDROOT/SPECS/powerline.spec
 yum install -y python-pip
 yes | pip install sphinx --upgrade
+/bin/cp -f /usr/local/src/build/powerline.spec $RPMBUILDROOT/SPECS/
+spectool -g -R $RPMBUILDROOT/SPECS/powerline.spec
+yum-builddep -y $RPMBUILDROOT/SPECS/powerline.spec
 rpmbuild -bb $RPMBUILDROOT/SPECS/powerline.spec
 
 # tmux top
@@ -38,4 +38,5 @@ cd $GOPATH/src/github.com/TomasTomecek
 git clone --depth=10 -b $TMUXTOPVER https://github.com/TomasTomecek/tmux-top.git
 cd tmux-top
 make
+/bin/cp -f /usr/local/src/build/tmux-top.spec $RPMBUILDROOT/SPECS/
 rpmbuild -bb $RPMBUILDROOT/SPECS/tmux-top.spec --define "_version $RPMVER"
