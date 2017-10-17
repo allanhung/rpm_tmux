@@ -11,7 +11,7 @@ sed -i -e "s#.centos##g" /etc/rpm/macros.dist
 spectool -g -R $RPMBUILDROOT/SPECS/tmux.spec
 yum-builddep -y $RPMBUILDROOT/SPECS/tmux.spec
 rpmbuild -bb $RPMBUILDROOT/SPECS/tmux.spec
-yum install -y $RPMBUILDROOT/RPMS/tmux-*.rpm
+yum install -y $RPMBUILDROOT/RPMS/x86_64/tmux-*.rpm
 
 # powerline
 yum install -y python-pip
