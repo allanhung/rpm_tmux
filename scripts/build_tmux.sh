@@ -17,6 +17,7 @@ yum install -y $RPMBUILDROOT/RPMS/x86_64/tmux-*.rpm
 yum install -y python-pip
 yes | pip install sphinx --upgrade
 /bin/cp -f /usr/local/src/build/powerline.spec $RPMBUILDROOT/SPECS/
+/bin/cp -f /usr/local/src/build/vim-powerline.metainfo.xml $RPMBUILDROOT/SOURCES/
 spectool -g -R $RPMBUILDROOT/SPECS/powerline.spec
 yum-builddep -y $RPMBUILDROOT/SPECS/powerline.spec
 rpmbuild -bb $RPMBUILDROOT/SPECS/powerline.spec
