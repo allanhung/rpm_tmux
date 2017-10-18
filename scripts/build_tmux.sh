@@ -33,10 +33,10 @@ curl -s https://mirror.go-repo.io/centos/go-repo.repo | tee /etc/yum.repos.d/go-
 yum -y install golang git
 
 go get github.com/codegangsta/cli
-go get github.com/TomasTomecek/tmux-top
-rm -rf $GOPATH/src/github.com/TomasTomecek/tmux-top
-cd $GOPATH/src/github.com/TomasTomecek
-git clone --depth=10 -b $TMUXTOPVER https://github.com/TomasTomecek/tmux-top.git
+go get github.com/allanhung/tmux-top
+rm -rf $GOPATH/src/github.com/allanhung/tmux-top
+cd $GOPATH/src/github.com/allanhung
+git clone --depth=10 -b my_tmux-top https://github.com/allanhung/tmux-top.git
 cd tmux-top
 make
 /bin/cp -f /usr/local/src/build/tmux-top.spec $RPMBUILDROOT/SPECS/

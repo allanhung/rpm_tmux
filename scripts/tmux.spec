@@ -15,6 +15,7 @@ License:        ISC and BSD
 URL:            https://tmux.github.io/
 Source0:        https://github.com/%{name}/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
 Source1:        https://github.com/libevent/libevent/releases/download/release-%{libeventver}-stable/%{libeventfile}
+Source2:        example_tmux-top.conf
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  glibc-static
@@ -54,6 +55,7 @@ echo "empty" > NOTES
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot} INSTALLBIN="install -p -m 755" INSTALLMAN="install -p -m 644"
+cp %{SOURCE2} %{buildroot}/%{_docdir}/%{name}-%{version}/
 
 %clean
 rm -rf %{buildroot}
@@ -72,7 +74,7 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc CHANGES NOTES TODO example_tmux.conf
+%doc CHANGES NOTES TODO example_tmux.conf example_tmux-top.conf
 %{_bindir}/tmux
 %{_mandir}/man1/tmux.1.*
 
