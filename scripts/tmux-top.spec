@@ -9,7 +9,7 @@ Version:        %{_verstr}
 Release:        1%{?dist}
 Summary:        Monitoring information for your tmux status line.
 License:        GPLv2+
-URL:            https://github.com/TomasTomecek/tmux-top
+URL:            https://github.com/allanhung/tmux-top
 
 
 %description
@@ -29,7 +29,7 @@ export PATH=$GOPATH/bin:$PATH
 %build
 
 %install
-cd $GOPATH/src/github.com/TomasTomecek/tmux-top
+cd $GOPATH/src/github.com/allanhung/tmux-top
 mkdir -p %{buildroot}/%{_bindir}
 cp tmux-top %{buildroot}/%{_bindir}
 
