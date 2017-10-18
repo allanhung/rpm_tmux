@@ -51,11 +51,11 @@ LIBEVENT_LIBS="$(env PKG_CONFIG_PATH=${LIBEVENT_PKG_CONFIG_PATH} pkg-config --li
 %configure LIBEVENT_CFLAGS="${LIBEVENT_CFLAGS}" LIBEVENT_LIBS="${LIBEVENT_LIBS}"
 make %{?_smp_mflags} LDFLAGS="%{optflags}"
 echo "empty" > NOTES
+cp %{SOURCE2} .
 
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot} INSTALLBIN="install -p -m 755" INSTALLMAN="install -p -m 644"
-cp %{SOURCE2} %{buildroot}/%{_docdir}/%{name}-%{version}/
 
 %clean
 rm -rf %{buildroot}
