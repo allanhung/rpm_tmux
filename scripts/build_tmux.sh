@@ -8,6 +8,7 @@ sed -i -e "s#.centos##g" /etc/rpm/macros.dist
 
 # tmux
 /bin/cp -f /usr/local/src/build/tmux.spec $RPMBUILDROOT/SPECS/
+/bin/cp -f /usr/local/src/build/example_tmux-top.conf $RPMBUILDROOT/SOURCES/
 spectool -g -R $RPMBUILDROOT/SPECS/tmux.spec
 yum-builddep -y $RPMBUILDROOT/SPECS/tmux.spec
 rpmbuild -bb $RPMBUILDROOT/SPECS/tmux.spec
